@@ -1,0 +1,27 @@
+{
+  "HSI_City": {
+    "paths": [
+      "/mnt/datasets/HSI_City/train/{DR_METHOD}_{ABLATION}",
+      "/mnt/datasets/HSI_City_v2_0/split/train_gt",
+      "/mnt/datasets/HSI_City/val/{DR_METHOD}_{ABLATION}",
+      "/mnt/datasets/HSI_City_v2_0/split/train_gt"
+    ],
+    "OriginalDataset": [
+      "/mnt/datasets/Processed/HSI_City_v2_0/split/train_hsd",
+      "/mnt/datasets/Processed/HSI_City_v2_0/split/train_gt",
+      "/mnt/datasets/Processed/HSI_City_v2_0/split/val_hsd",
+      "/mnt/datasets/Processed/HSI_City_v2_0/split/train_gt"
+    ],
+    "classes": 19,
+    "in_channels": 128,
+    "batch_size": 8,
+    "accumulation": 2,
+    "class_weights": [
+      0.0352398197752011, 2.76168336896999, 0.141569782628747, 0.967312031163991,
+      0.684358496993711, 1.9963568023469, 4.77820745633706, 0.774468700756065,
+      0.0636444844710423, 7.3001598399455, 0.20614715603438, 2.72188415731343,
+      6.04016930911673, 0.0556610439936408, 1, 0.327367585331485, 47.0528776760789,
+      9.75983456524974, 9.61288471385941
+    ]
+  }
+}
