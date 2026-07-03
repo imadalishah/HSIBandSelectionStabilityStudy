@@ -7,10 +7,7 @@ This repository provides a PyTorch framework for evaluating hyperspectral band s
 ## Features
 
 * Train semantic segmentation models using HSI
-* Compare multiple encoder-decoder architectures, Such as:
-  * U-Net
-  * DeepLabV3+
-  * SegFormer
+* Compare multiple encoder-decoder architectures, Such as U-Net, DeepLabV3+ and SegFormer
 * Evaluate different hyperspectral band selection methods: CMIM, JMIM, mRMR, Sim-LP, ...
 * Automated band ablation experiments
 * Multi-seed evaluation for reproducibility
@@ -39,9 +36,9 @@ This repository provides a PyTorch framework for evaluating hyperspectral band s
 
 ## Supported Models
 
-The framework currently supports models from `segmentation_models_pytorch`: U-Net, DeepLabV3+, SegFormer, or any other supported by SMP.
+The framework currently supports models from `segmentation_models_pytorch`: U-Net, DeepLabV3+ and SegFormer.
 
-Example encoder backbones include (We used in our study): EfficientNet-B0 and MiT-B0
+Example encoder backbones include : EfficientNet-B0 and MiT-B0
 
 Note: Additional architectures/backbones supported by `segmentation_models_pytorch` can easily be added by modifying `MODEL_CONFIGS` inside `train.py`.
 
