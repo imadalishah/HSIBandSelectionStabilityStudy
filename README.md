@@ -1,4 +1,4 @@
-# Hyperspectral Band Selection for Semantic Segmentation
+# HSI Band Selection Stability Study on Hyperspectral City Dataset for Semantic Segmentation
 
 This repository provides a PyTorch framework for evaluating hyperspectral band selection strategies for semantic segmentation. It supports multiple segmentation architectures using SMP, configurable band subsets, and automated experimentation across different random seeds, and band ablation settings.
 
@@ -150,7 +150,7 @@ Example:
 {
     "Original": None,
     "JMIM": [...],
-    "CMIN": [...],
+    "CMIM": [...],
     "Any Custom BS": [...]
 }
 ```
