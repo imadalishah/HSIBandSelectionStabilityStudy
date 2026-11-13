@@ -1,20 +1,35 @@
-# HSI Band Selection Stability Study on Hyperspectral City Dataset for Semantic Segmentation
+# Band-Selection Stability and Semantic Segmentation Performance: A Study on Hyperspectral City
 
-This repository provides a PyTorch framework for evaluating hyperspectral band selection strategies for semantic segmentation. It supports multiple segmentation architectures using SMP, configurable band subsets, and automated experimentation across different random seeds, and band ablation settings.
+[![arXiv](https://img.shields.io/badge/arXiv-2609.31074-b31b1b.svg)](https://arxiv.org/abs/2609.31074)
+
+Official code for the paper **"Band-Selection Stability and Semantic Segmentation Performance: A Study on Hyperspectral City"** ([arXiv:2609.31074](https://arxiv.org/abs/2609.31074)).
+
+This repository provides a PyTorch framework for evaluating hyperspectral band selection strategies for semantic segmentation. It supports multiple segmentation architectures using SMP, configurable band subsets, and automated experimentation across different random seeds and band ablation settings.
+
+---
+
+## Paper Summary
+
+The study examines how sensitive hyperspectral band-selection methods are to the data sample they are run on, and how the selected bands affect downstream semantic segmentation. Six band-selection methods are evaluated on ten class-balanced regions of interest from the [Hyperspectral City V2 dataset](https://pbdl-ws.github.io/pbdl2021/challenge/download.html) (128 bands, 450–950 nm), using top-K band subsets and three segmentation models against a full-band baseline. Please follow the dataset's license and terms of use.
+
+Key findings:
+
+* Sim-LP is the most stable method, and together with JMIM+CSNR gives the best segmentation results.
+* Top-K models remain competitive with the full 128-band baseline (up to +2.01 mIoU and +1.72 mF1) while running 18-22x faster on CPU at K=9.
+* Performance does not rise steadily with K, and stability does not consistently predict segmentation performance, so stability alone is an unreliable guide to downstream results.
 
 ---
 
 ## Features
 
 * Train semantic segmentation models using HSI
-* Compare multiple encoder-decoder architectures, Such as U-Net, DeepLabV3+ and SegFormer
-* Evaluate different hyperspectral band selection methods: CMIM, JMIM, mRMR, Sim-LP, ...
+* Compare multiple encoder-decoder architectures, such as U-Net, DeepLabV3+ and SegFormer
+* Evaluate different hyperspectral band selection methods: CMIM, JMIM, mRMR, Sim-LP, JMIM+CSNR, ...
 * Automated band ablation experiments
 * Multi-seed evaluation for reproducibility
 * Mixed-precision training (AMP)
 * Early stopping with checkpointing
 * Evaluation metrics: mIoU, F1, Recall, Precision, Kappa
-
 
 ---
 
@@ -36,15 +51,15 @@ This repository provides a PyTorch framework for evaluating hyperspectral band s
 
 ## Supported Models
 
-The framework currently supports models from `segmentation_models_pytorch`: U-Net, DeepLabV3+ and SegFormer.
+The framework currently supports models from [segmentation_models_pytorch](https://github.com/qubvel-org/segmentation_models.pytorch) (SMP): U-Net, DeepLabV3+ and SegFormer. Please follow SMP's license and terms of use.
 
-Example encoder backbones include: EfficientNet-B0 and MiT-B0
-
-Note: Additional architectures/backbones supported by `segmentation_models_pytorch` can easily be added by modifying `MODEL_CONFIGS` inside `train.py`.
+Example encoder backbones include: EfficientNet-B0 and MiT-B0. Any additional architectures/backbones supported by SMP can easily be added by modifying `MODEL_CONFIGS` inside `train.py`.
 
 ---
 
-## Dataset Format
+## Dataset
+
+### Dataset Format
 
 The framework expects the following directory structure:
 
@@ -63,6 +78,8 @@ dataset/
     ├── images/
     └── masks/
 ```
+
+The original hypercubes were converted to NumPy arrays (`.npy`).
 
 ### Image Requirements
 
@@ -101,7 +118,7 @@ Datasets are defined inside:
 dataset_config.json
 ```
 
-Each dataset configuration includes:
+Each dataset entry includes:
 
 * Number of classes
 * Input channels
@@ -110,45 +127,47 @@ Each dataset configuration includes:
 * Class weights
 * Gradient accumulation settings
 
-Example:
+Example (values in angle brackets and `...` are placeholders to be replaced, so the snippet is not valid JSON as written):
 
 ```json
 {
-  "HSI_City": {
-    "classes": 2,
-    "in_channels": 224,
-    "batch_size": 16,
-    "class_weights": [...],
+  "<dataset_name>": {
+    "classes": "<number of classes>",
+    "in_channels": "<number of channels>",
+    "batch_size": 8,
+    "class_weights": ["<w_0>", "<w_1>", "..."],
     "OriginalDataset": [
-        "train/images",
-        "train/masks",
-        "val/images",
-        "val/masks"
+        "../train/images",
+        "../train/masks",
+        "../validation/images",
+        "../validation/masks"
     ]
   }
 }
 ```
 
+Adjust the dataset paths to match the location of your dataset.
+
 ---
 
 ### Band Selection Configuration
 
-Selected spectral bands are loaded from
+Selected spectral bands are loaded from:
 
 ```text
 bandSelect_Config.json
 ```
 
-Each entry corresponds to a band selection strategy.
+Each entry corresponds to a band selection strategy. Use `null` for the full-band baseline and a list of band indices (0-based, in `[0, 127]` for Hyperspectral City V2) for each method.
 
-Example:
+Example (`<...>` and `...` are placeholders):
 
 ```json
 {
-    "Original": None,
-    "JMIM": [...],
-    "CMIM": [...],
-    "Any Custom BS": [...]
+    "Original": null,
+    "JMIM": [0, 12, 35],
+    "CMIM": [3, 20, 41],
+    "<Any Custom bandselection>": ["<b_1>", "<b_2>", "..."]
 }
 ```
 
@@ -294,21 +313,34 @@ pip install torch torchvision segmentation-models-pytorch pandas numpy pillow sc
 
 ## Citation
 
-If you use this repository in your research, please cite the associated publication (to be added).
+If you use this repository in your research, please cite our paper:
+
+```bibtex
+@misc{li2026bandselection,
+  title         = {Band-Selection Stability and Semantic Segmentation Performance: A Study on Hyperspectral City},
+  author        = {Li, Jiarong and Shah, Imad Ali and Ward, Enda and Glavin, Martin and Jones, Edward and Deegan, Brian},
+  year          = {2026},
+  eprint        = {2609.31074},
+  archivePrefix = {arXiv},
+  primaryClass  = {cs.CV},
+  url           = {https://arxiv.org/abs/2609.31074}
+}
+```
 
 ---
 
 ## License
 
-
+This project is released under the MIT License. See [LICENSE](LICENSE) for details.
 
 ---
 
 ## Acknowledgements
 
-This project builds upon:
+This project builds upon, please follow their license and terms of use:
 
 * PyTorch
 * segmentation_models_pytorch
 * NumPy
 * scikit-learn
+* Hyperspectral City V2 dataset
