@@ -2,7 +2,7 @@
 
 [![arXiv](https://img.shields.io/badge/arXiv-2609.31074-b31b1b.svg)](https://arxiv.org/abs/2609.31074)
 
-Official code for the paper **"Band-Selection Stability and Semantic Segmentation Performance: A Study on Hyperspectral City"** ([arXiv:2609.31074](https://arxiv.org/abs/2609.31074)).
+Official code for the paper **"Band-Selection Stability and Semantic Segmentation Performance: A Study on Hyperspectral City"**.
 
 This repository provides a PyTorch framework for evaluating hyperspectral band selection strategies for semantic segmentation. It supports multiple segmentation architectures using SMP, configurable band subsets, and automated experimentation across different random seeds and band ablation settings.
 
